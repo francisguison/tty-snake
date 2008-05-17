@@ -63,7 +63,7 @@
   -v, --version		Print version\n\
   -i, --info		Print info\n\
   -h, --help		Print help (this page)\n\n\
-also , you can configure Snake in the config.h\n\
+also , you can configure Snake to the config.h\n\
 <num> must to be an integer (for x < 24 and y < 78) \n\
 WARNING ! the random level function is experimental\n");\
 exit(EXIT_SUCCESS);
