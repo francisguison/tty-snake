@@ -25,7 +25,7 @@
     
 int act_random = O_RANDL;
 int speed = O_SPEED;
-int inc_tail=O_INCT;
+int inc_tail = O_INCT;
 int enable_rand_wall = O_RANDW;						
 int enable_bell = O_BELL;	/* bell option */
 unsigned int score;			/* score */
