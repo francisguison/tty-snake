@@ -17,7 +17,7 @@
 #define FGRANDW_COLOR black
 
 /* OPTION */
-
+ 
 /* speed */
 #define O_SPEED 600
 /* random wall */
