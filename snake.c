@@ -21,23 +21,23 @@
 #include "config.h"
 #include "snake.h"
 
-/* variable */
+/* variables */
     
-int act_random = O_RANDL;
-int speed = O_SPEED;
-int inc_tail = O_INCT;
-int enable_rand_wall = O_RANDW;						
-int enable_bell = O_BELL;	/* bell option */
-unsigned int score;			/* score */
-int tail_length=5;			/* the tail's length */
-int mat[MAX_X][MAX_Y];		/* frame matrice */
-unsigned long tail;			/* snake's tail */
- 
-COORD food;					/* location X & Y of snake's food */
-COORD direction = {1,0};	/* direction (with key) */
-COORD snake[USHRT_MAX];		/* snake coordinated */  
-COORD coordinated = {3,3};	/* final location of snake */
-COORD randwall;				/* for the random wall fonction */
+int act_random =		O_RANDL;
+int speed =				O_SPEED;
+int inc_tail =		 	O_INCT;
+int enable_rand_wall = 	O_RANDW;						
+int enable_bell = 		O_BELL;		/* bell option */
+unsigned int score;					/* score */
+int tail_length=		O_TLENGTH;	/* the tail's length */
+int mat[MAX_X][MAX_Y];				/* frame matrice */
+unsigned long tail;					/* snake's tail */
+ 	
+COORD food;						/* location X & Y of snake's food */
+COORD direction = {1,0};		/* direction (with key) */
+COORD snake[USHRT_MAX];			/* snake coordinated */  
+COORD coordinated = {3,3};		/* final location of snake */
+COORD randwall;					/* for the random wall fonction */
 
 
 
@@ -287,12 +287,13 @@ int main(int argc,char **argv) {
 		{"random",	0, NULL, 'r'},
 		{"bell",	0, NULL, 'b'},
 		{"randwall",0, NULL, 'w'},
-		{"tailinc",	0, NULL, 't'},
+		{"tailinc",	0, NULL, 't'},	
+		{"length",	0, NULL, 'l'},
 		{"speed",	0, NULL, 's'},
         {NULL,      0, NULL, 0}
     };
 
-	 while ((c = getopt_long(argc,argv,":vibwt:rhx:y:s:",
+	 while ((c = getopt_long(argc,argv,":vibwt:rhx:y:s:l:",
 					 long_options,NULL)) != -1) {
 
 		switch(c) {
@@ -322,6 +323,12 @@ int main(int argc,char **argv) {
 				break;
 			case 'r':
 				act_random = 1;
+				break;
+			case 'l':
+				if(atoi(optarg)<0) {
+					help_print();
+				} 
+				tail_length = atoi(optarg);
 				break;
 			case 'b':
 				enable_bell = 1;

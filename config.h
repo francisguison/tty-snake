@@ -28,4 +28,5 @@
 #define O_BELL FALSE
 /* increment tail option */
 #define O_INCT 1
-
+/* tail lenght by default */
+#define O_TLENGTH  5
