@@ -26,5 +26,6 @@
 #define O_RANDL FALSE
 /* bell option */
 #define O_BELL FALSE
-
+/* increment tail option */
+#define O_INCT 1
 

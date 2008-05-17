@@ -25,7 +25,7 @@
     
 int act_random = O_RANDL;
 int speed = O_SPEED;
-int inc_tail=1;
+int inc_tail=O_INCT;
 int enable_rand_wall = O_RANDW;						
 int enable_bell = O_BELL;	/* bell option */
 unsigned int score;			/* score */
@@ -315,6 +315,9 @@ int main(int argc,char **argv) {
 				inc_tail = atoi(optarg);
 				break;
 			case 's':
+				if(atoi(optarg)<0) {
+					help_print();
+				}
 				speed = atoi(optarg);
 				break;
 			case 'r':
