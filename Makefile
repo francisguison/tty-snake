@@ -9,6 +9,8 @@ install :snake.c
 	@cp tty-snake /usr/local/bin/
 	@echo "file chmod"
 	@chmod +x /usr/local/bin/tty-snake
+
 uninstall :snake.c
+
 	@rm -rf /usr/local/bin/tty-snake
 
