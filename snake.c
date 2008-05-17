@@ -32,7 +32,7 @@ unsigned int score;			/* score */
 int tail_length=5;			/* the tail's length */
 int mat[MAX_X][MAX_Y];		/* frame matrice */
 unsigned long tail;			/* snake's tail */
-
+ 
 COORD food;					/* location X & Y of snake's food */
 COORD direction = {1,0};	/* direction (with key) */
 COORD snake[USHRT_MAX];		/* snake coordinated */  
