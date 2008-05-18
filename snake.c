@@ -27,9 +27,10 @@ int act_random =		O_RANDL;
 int speed =				O_SPEED;
 int inc_tail =		 	O_INCT;
 int enable_rand_wall = 	O_RANDW;						
+int enable_print_mat =	O_PMAT;
 int enable_bell = 		O_BELL;		/* bell option */
-unsigned int score;					/* score */
 int tail_length=		O_TLENGTH;	/* the tail's length */
+unsigned int score;					/* score */
 int mat[MAX_X][MAX_Y];				/* frame matrice */
 unsigned long tail;					/* snake's tail */
  	
@@ -38,8 +39,6 @@ COORD direction = {1,0};		/* direction (with key) */
 COORD snake[USHRT_MAX];			/* snake coordinated */  
 COORD coordinated = {3,3};		/* final location of snake */
 COORD randwall;					/* for the random wall fonction */
-
-
 
 /* start function */
 
@@ -172,7 +171,7 @@ void random_level(int enable) {
 		rand_choose = nrand (1,2);
 		d = nrand(0,8);
 		
-		if(rand_choose == 1) { 
+		if(rand_choose) { 
 			c_ch = 1 ;
 			g_ch = 21;
 		} else {
@@ -185,7 +184,7 @@ void random_level(int enable) {
 			b = nrand(2,76);
 			for(c=c_ch;c<a;c++){
 				mvaddstr(c,b," ");
-				mat[c][b]=1;
+				mat[c][b]=4;
 			}
 			++count;
 		}
@@ -195,7 +194,7 @@ void random_level(int enable) {
 			f = nrand(2,76);
 			for(g=g_ch;g>e;g--){
 				mvaddstr(g,f," ");
-				mat[g][f]=1;
+				mat[g][f]=4;
 			}
 		++counts;
 		}
@@ -211,7 +210,7 @@ void snake_food(void) {
 	while(pass != 1) {	
 		food.x = nrand(3,22);
 		food.y = nrand(3,77);
-		if(mat[food.x][food.y] == 0) {
+		if(!mat[food.x][food.y]) {
 			pass = 1;
 		}
 	}	
@@ -227,14 +226,14 @@ void rand_wall(int enable) {
 		while(pass != 1) {
 			randwall.x = nrand(3,22);
 			randwall.y = nrand(3,77);
-			if(mat[randwall.x][randwall.y] == 0) {
+			if(!mat[randwall.x][randwall.y]) {
 				pass = 1;
 			}
 		}
 		attron(color(RANDW));
 		mvaddstr(randwall.x,randwall.y,"X");
 		attroff(color(RANDW));
-		mat[randwall.x][randwall.y] = 1;
+		mat[randwall.x][randwall.y] = 2;
 	}
 }
 		
@@ -257,10 +256,51 @@ void snake_win(int enable) {
 	}
 }
 
+void print_mat(int enable){
+	if(enable) {
+		int i,j;
+		int fg,bg;
+		for(i=0;i<25;i++){
+			for(j=0;j<80;j++){
+				switch(mat[i][j]){
+					case 0:
+						fg = 37;
+						bg = 40;
+						break;
+					case 2:
+						fg = 30;
+						bg = 41;
+						break;
+					case 1:
+						fg = 30;
+						bg = 42;
+						break;
+					case 3:
+						fg = 30;
+						bg = 44;
+						break;
+					case 4:
+						fg = 30;
+						bg = 47;
+						break;
+				}
+			colors(bg,fg);
+			printf("%d",mat[i][j]);
+			colors(0,0);
+			}
+			printf("\n");
+		}
+	}
+}
+
+
 void lose_screen(void) {
 	sleep(1);
 	clear();
 	endwin();
+	print_mat(enable_print_mat);
+	printf("Your score : %d\n",score);
+	
 	exit(EXIT_SUCCESS);
 }
 
@@ -269,6 +309,7 @@ void lose_screen(void) {
 void lose(void) {
 
 	if((mat[coordinated.x][coordinated.y] == 1)
+	|| (mat[coordinated.x][coordinated.y] == 2)
 	|| (mat[coordinated.x][coordinated.y] == 4)) {
 		lose_screen();
 	}
@@ -290,15 +331,16 @@ int main(int argc,char **argv) {
 		{"tailinc",	0, NULL, 't'},	
 		{"length",	0, NULL, 'l'},
 		{"speed",	0, NULL, 's'},
+		{"pmat",	0, NULL, 'm'},
         {NULL,      0, NULL, 0}
     };
 
-	 while ((c = getopt_long(argc,argv,":vibwt:rhx:y:s:l:",
+	 while ((c = getopt_long(argc,argv,":vimbwt:rhx:y:s:l:",
 					 long_options,NULL)) != -1) {
 
 		switch(c) {
 			case 'v':
-				printf("Snake 2 beta2\nCompiled at %s ",__DATE__);
+				printf("TTY-Snake beta3\nCompiled at %s ",__DATE__);
 				printf("%s\n",__TIME__);
 				exit(EXIT_SUCCESS);
 				break;
@@ -311,6 +353,9 @@ int main(int argc,char **argv) {
 				break;
 			case 'w':
 				enable_rand_wall = 1;
+				break;
+			case 'm':
+				enable_print_mat = 1;
 				break;
 			case 't':
 				inc_tail = atoi(optarg);
@@ -325,7 +370,7 @@ int main(int argc,char **argv) {
 				act_random = 1;
 				break;
 			case 'l':
-				if(atoi(optarg)<0) {
+				if(atoi(optarg)<1) {
 					help_print();
 				} 
 				tail_length = atoi(optarg);
@@ -349,6 +394,7 @@ int main(int argc,char **argv) {
 				break;
 		}
 	 }
+
 	start();					/* init ncurses */
 	snake_food(); 				/* init the food */
 	draw_frame(); 				/* init the frame */
@@ -357,7 +403,6 @@ int main(int argc,char **argv) {
 	while(1) {
 		snake_func();
 		usleep(speed);
-		move(0,0);
 	}
 }
 

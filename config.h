@@ -10,7 +10,7 @@
 #define SNAKE_COLOR green
 #define FGSNAKE_COLOR black
 /* food color */
-#define FOOD_COLOR blue
+#define FOOD_COLOR cyan
 #define FGFOOD_COLOR black
 /* random-wall color */
 #define RANDW_COLOR red
@@ -30,3 +30,5 @@
 #define O_INCT 1
 /* tail lenght by default */
 #define O_TLENGTH  5
+/* print matrix */
+#define O_PMAT FALSE

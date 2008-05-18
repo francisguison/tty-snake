@@ -14,3 +14,7 @@ uninstall :snake.c
 
 	@rm -rf /usr/local/bin/tty-snake
 
+clean :
+
+	@rm tty-snake
+
