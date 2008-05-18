@@ -60,6 +60,7 @@
   -t, --tailinc		Snake incrementation food value\n\
   -w, --randwall	Make a wall when the snake eat\n\
   -s, --speed		Speed (milisecond of equart)\n\
+  -c, --topten		Print the Top 10\n\
   -b, --bell		For enable the sound system\n\
   -l, --length		For choose the tail length \n\
   -m, --pmat		Print matrix when you lose\n\
@@ -82,6 +83,8 @@ void snake_win(int enable);
 void rand_wall(int enable);
 void random_level(int enable);
 void print_mat(int enable);
+void print_topten(int enable);
+void change(int tab[], int i, int j);
 int nrand(int min,int max);
 
 typedef struct {

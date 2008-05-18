@@ -29,11 +29,13 @@ int inc_tail =		 	O_INCT;
 int enable_rand_wall = 		O_RANDW;						
 int enable_print_mat =		O_PMAT;
 int enable_bell = 		O_BELL;		/* bell option */
-int tail_length=		O_TLENGTH;	/* the tail's length */
+int tail_length =		O_TLENGTH;	/* the tail's length */
+int enable_topten =		O_TOPTEN; 
 unsigned int score;				/* score */
 int mat[MAX_X][MAX_Y];				/* frame matrice */
 unsigned long tail;				/* snake's tail */
- 	
+char* filename;
+
 COORD food;				/* location X & Y of snake's food */
 COORD direction = {1,0};		/* direction (with key) */
 COORD snake[USHRT_MAX];			/* snake coordinated */  
@@ -41,6 +43,7 @@ COORD coordinated = {3,3};		/* final location of snake */
 COORD randwall;				/* for the random wall fonction */
 
 FILE* score_file  = NULL;
+int top[SHRT_MAX] = {0};
 
 /* start function */
 
@@ -262,24 +265,19 @@ void print_mat(int enable){
 			for(j=0;j<80;j++){
 				switch(mat[i][j]){
 					case 0:
-						fg = 37;
-						bg = 40;
-						break;
-					case 2:
-						fg = 30;
-						bg = 41;
+						fg = 37;bg = 40;
 						break;
 					case 1:
-						fg = 30;
-						bg = 42;
+						fg = 30;bg = 42;
+						break;
+					case 2:
+						fg = 30;bg = 41;
 						break;
 					case 3:
-						fg = 30;
-						bg = 44;
+						fg = 30;bg = 44;
 						break;
 					case 4:
-						fg = 30;
-						bg = 47;
+						fg = 30;bg = 47;
 						break;
 				}
 			colors(bg,fg);
@@ -291,16 +289,51 @@ void print_mat(int enable){
 	}
 }
 
+void change(int tab[], int i, int j){
+     int memoire;
+     memoire=tab[i];
+     tab[i]=tab[j];
+     tab[j]=memoire;
+}
 
+void print_topten(int enable) {
+	if(enable){
+		int i=0,a,b,c;
+		int tab_sc[10];
+		score_file = fopen("ttysnakescore","r");
+		printf("Top 10 :\n");
+		for(a=0;a<10;a++){
+			fscanf(score_file,"%d",&top[a]);
+			tab_sc[a] = top[a];
+		}
+		while(b) {
+			b = 0 ;
+			for(a=0;a<10-1;a++){
+				if(tab_sc[a] > tab_sc[a+1]){
+					change(tab_sc,a,a+1);
+					b =1;		
+				}
+			}
+		}
+
+		for(a=9;a>0;--a){
+			printf("%d\n",tab_sc[a]);
+		}
+		fclose(score_file);
+	}
+}
 void lose_screen(void) {
 	sleep(1);
 	clear();
 	endwin();
 	print_mat(enable_print_mat);
 	printf("Your score : %d\n",score);
-	score_file = fopen("test.txt","r+");
-	fprintf(score_file,"score : %d",score);	
+	score_file = fopen("ttysnakescore","a");
+	if(score){
+		fprintf(score_file,"%d \n",score);	
+	}
 	fclose(score_file);
+	print_topten(enable_topten);
 	exit(EXIT_SUCCESS);
 }
 
@@ -319,11 +352,11 @@ int main(int argc,char **argv) {
 	
 	int c;
 	srand(time(NULL));
-
+	
 	static struct option long_options[] =
     {
-        {"help",    0, NULL, 'h'},
-        {"version", 0, NULL, 'v'},
+	{"help",    0, NULL, 'h'},
+	{"version", 0, NULL, 'v'},
 	{"info",	0, NULL, 'i'},
 	{"random",	0, NULL, 'r'},
 	{"bell",	0, NULL, 'b'},
@@ -332,10 +365,11 @@ int main(int argc,char **argv) {
 	{"length",	0, NULL, 'l'},
 	{"speed",	0, NULL, 's'},
 	{"pmat",	0, NULL, 'm'},
-        {NULL,      0, NULL, 0}
+	{"topten",	0, NULL, 'c'},
+    {NULL,      0, NULL, 0}
     };
 
-	 while ((c = getopt_long(argc,argv,":vimbwt:rhx:y:s:l:",
+	 while ((c = getopt_long(argc,argv,":vimbwt:rhcx:y:s:l:",
 					 long_options,NULL)) != -1) {
 
 		switch(c) {
@@ -365,6 +399,10 @@ int main(int argc,char **argv) {
 					help_print();
 				}
 				speed = atoi(optarg);
+				break;
+			case 'c':
+				print_topten(enable_topten);
+				exit(EXIT_SUCCESS);
 				break;
 			case 'r':
 				act_random = 1;

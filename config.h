@@ -31,4 +31,6 @@
 /* tail lenght by default */
 #define O_TLENGTH  5
 /* print matrix */
-#define O_PMAT FALSE
+#define O_PMAT TRUE
+/* topten option */
+#define O_TOPTEN TRUE
