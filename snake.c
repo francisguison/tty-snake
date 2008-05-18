@@ -40,6 +40,8 @@ COORD snake[USHRT_MAX];			/* snake coordinated */
 COORD coordinated = {3,3};		/* final location of snake */
 COORD randwall;				/* for the random wall fonction */
 
+FILE* score_file  = NULL;
+
 /* start function */
 
 void start(void) {
@@ -296,7 +298,9 @@ void lose_screen(void) {
 	endwin();
 	print_mat(enable_print_mat);
 	printf("Your score : %d\n",score);
-	
+	score_file = fopen("test.txt","r+");
+	fprintf(score_file,"score : %d",score);	
+	fclose(score_file);
 	exit(EXIT_SUCCESS);
 }
 
