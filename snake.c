@@ -24,31 +24,31 @@
 /* variables */
     
 int act_random =		O_RANDL;
-int speed =				O_SPEED;
+int speed =			O_SPEED;
 int inc_tail =		 	O_INCT;
-int enable_rand_wall = 	O_RANDW;						
-int enable_print_mat =	O_PMAT;
+int enable_rand_wall = 		O_RANDW;						
+int enable_print_mat =		O_PMAT;
 int enable_bell = 		O_BELL;		/* bell option */
 int tail_length=		O_TLENGTH;	/* the tail's length */
-unsigned int score;					/* score */
+unsigned int score;				/* score */
 int mat[MAX_X][MAX_Y];				/* frame matrice */
-unsigned long tail;					/* snake's tail */
+unsigned long tail;				/* snake's tail */
  	
-COORD food;						/* location X & Y of snake's food */
+COORD food;				/* location X & Y of snake's food */
 COORD direction = {1,0};		/* direction (with key) */
 COORD snake[USHRT_MAX];			/* snake coordinated */  
 COORD coordinated = {3,3};		/* final location of snake */
-COORD randwall;					/* for the random wall fonction */
+COORD randwall;				/* for the random wall fonction */
 
 /* start function */
 
 void start(void) {
-	initscr ();							/* ncurses init */
+	initscr ();			/* ncurses init */
  	noecho (); 
  	start_color ();
  	refresh();
  	keypad (stdscr, TRUE);				/* for arrow key */
-
+	curs_set(0);
 	/* init color */
 	init_pair(BORDER ,FGBORDER_COLOR, BORDER_COLOR);
 	init_pair(INFO ,FGINFO_COLOR, INFO_COLOR);
@@ -109,10 +109,6 @@ void snake_func(void) {
 	attroff(color(SNAKE));
 	/* put the addstr at the left-top */
 	mat[coordinated.x][coordinated.y]=1;
-	
-	attron(color(BORDER));
-	mvaddstr(0,0," ");
-	attroff(color(BORDER));
 	halfdelay(1);	
 	/* remove the end of the tail when the lenght is reached */
 	
@@ -324,14 +320,14 @@ int main(int argc,char **argv) {
     {
         {"help",    0, NULL, 'h'},
         {"version", 0, NULL, 'v'},
-		{"info",	0, NULL, 'i'},
-		{"random",	0, NULL, 'r'},
-		{"bell",	0, NULL, 'b'},
-		{"randwall",0, NULL, 'w'},
-		{"tailinc",	0, NULL, 't'},	
-		{"length",	0, NULL, 'l'},
-		{"speed",	0, NULL, 's'},
-		{"pmat",	0, NULL, 'm'},
+	{"info",	0, NULL, 'i'},
+	{"random",	0, NULL, 'r'},
+	{"bell",	0, NULL, 'b'},
+	{"randwall",0, NULL, 'w'},
+	{"tailinc",	0, NULL, 't'},	
+	{"length",	0, NULL, 'l'},
+	{"speed",	0, NULL, 's'},
+	{"pmat",	0, NULL, 'm'},
         {NULL,      0, NULL, 0}
     };
 
@@ -345,7 +341,7 @@ int main(int argc,char **argv) {
 				exit(EXIT_SUCCESS);
 				break;
 			case 'i':
-				printf("Snake , By Duquesnoy Martin\n");
+				printf("TTY-Snake , By Duquesnoy Martin\n");
 				exit(EXIT_SUCCESS);
 				break;
 			case 'h':
@@ -395,9 +391,9 @@ int main(int argc,char **argv) {
 		}
 	 }
 
-	start();					/* init ncurses */
-	snake_food(); 				/* init the food */
-	draw_frame(); 				/* init the frame */
+	start();			/* init ncurses */
+	snake_food(); 			/* init the food */
+	draw_frame(); 			/* init the frame */
  	random_level(act_random); 	/* init the random level if it's enable */
 
 	while(1) {
