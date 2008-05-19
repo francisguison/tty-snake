@@ -296,44 +296,65 @@ void change(int tab[], int i, int j){
      tab[j]=memoire;
 }
 
+int numbl(void) {
+	int a,c,nm_l=0;
+	
+	score_file = fopen("score","r+");
+
+	while((c = fgetc(score_file)) != "") {
+		if( c == '\n' ){
+			++nm_l;
+		}
+	}
+	return(nm_l);
+}
+
 void print_topten(int enable) {
 	if(enable){
-		int i=0,a,b,c;
-		int tab_sc[10];
-		score_file = fopen("ttysnakescore","r");
+		int a,b,nm_l=0,c,count=0;
+		int tab_sc[1000];
+		FILE* score_file  = NULL;
+
+		score_file = fopen("score","r+");
+		nm_l = 1000;
 		printf("Top 10 :\n");
-		for(a=0;a<10;a++){
-			fscanf(score_file,"%d",&top[a]);
+	
+		for(a=0;a<nm_l;a++){
+   	    	fscanf(score_file,"%d",&top[a]);
 			tab_sc[a] = top[a];
-		}
+   	   }
+	
 		while(b) {
-			b = 0 ;
-			for(a=0;a<10-1;a++){
-				if(tab_sc[a] > tab_sc[a+1]){
+   	     b = 0 ;
+		    for(a=0;a<nm_l-1;a++){
+				if(tab_sc[a] < tab_sc[a+1]){
 					change(tab_sc,a,a+1);
-					b =1;		
+					b = 1;    
 				}
 			}
 		}
-
-		for(a=9;a>0;--a){
-			printf("%d\n",tab_sc[a]);
-		}
+				   
+		for(a=0;a<10;++a){
+			
+			printf("%d %s : %d\n",count+1,USER,tab_sc[a]);
+			++count;
+		 }
+	
 		fclose(score_file);
+ 		}
 	}
-}
+
 void lose_screen(void) {
 	sleep(1);
 	clear();
 	endwin();
 	print_mat(enable_print_mat);
 	printf("Your score : %d\n",score);
-	score_file = fopen("ttysnakescore","a");
+	score_file = fopen("score","a");
 	if(score){
 		fprintf(score_file,"%d \n",score);	
 	}
 	fclose(score_file);
-	print_topten(enable_topten);
 	exit(EXIT_SUCCESS);
 }
 
@@ -401,7 +422,7 @@ int main(int argc,char **argv) {
 				speed = atoi(optarg);
 				break;
 			case 'c':
-				print_topten(enable_topten);
+				print_topten(1);
 				exit(EXIT_SUCCESS);
 				break;
 			case 'r':

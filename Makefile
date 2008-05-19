@@ -15,6 +15,7 @@ install :tty-snake
 	@echo ""
 	@echo "*** Chmoding the snake ***"
 	@chmod +x /usr/local/bin/tty-snake
+	@mkdir /usr/share/ttysnake
 	@echo "*** Your snake is installed. play with it: tty-snake --help ***"
 	@echo ""
 
