@@ -26,6 +26,7 @@
 #include <unistd.h> 					
 #include <limits.h>						
 #include <getopt.h>					
+#include <stdio.h>
 
 #define MAX_X 25
 #define MAX_Y 80
@@ -36,6 +37,7 @@
 #define FOOD 4
 #define RANDW 5
 
+#define BOOLEAN bool
 #define TRUE 1
 #define FALSE 0
 

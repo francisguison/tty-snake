@@ -25,17 +25,18 @@
 /* VARIABLE */
 /* ******** */
 
-int enable_random =		O_RANDL;
-int speed =				O_SPEED;
-int inc_tail =		 	O_INCT;
-int enable_rand_wall = 	O_RANDW;						
-int enable_print_mat =	O_PMAT;
-int enable_bell = 		O_BELL;		/* bell option */
-int tail_length =		O_TLENGTH;	/* the tail's length */
 unsigned int score;					/* score */
 int mat[MAX_X][MAX_Y];				/* frame matrice */
 unsigned long tail;					/* snake's tail */
 char filename[80];
+int speed =				O_SPEED;
+int inc_tail =		 	O_INCT;
+int tail_length =		O_TLENGTH;	/* the tail's length */
+
+BOOLEAN enable_random =		O_RANDL;
+BOOLEAN enable_rand_wall = 	O_RANDW;						
+BOOLEAN enable_print_mat =	O_PMAT;
+BOOLEAN enable_bell = 		O_BELL;		/* bell option */
 
 COORD food;							/* location X & Y of snake's food */
 COORD direction = {1,0}	;			/* direction (with key) */
