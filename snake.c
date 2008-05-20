@@ -34,7 +34,7 @@ int enable_topten =		O_TOPTEN;
 unsigned int score;				/* score */
 int mat[MAX_X][MAX_Y];				/* frame matrice */
 unsigned long tail;				/* snake's tail */
-char* filename;
+char filename[80];
 
 COORD food;				/* location X & Y of snake's food */
 COORD direction = {1,0};		/* direction (with key) */
@@ -296,34 +296,27 @@ void change(int tab[], int i, int j){
      tab[j]=memoire;
 }
 
-int numbl(void) {
-	int a,c,nm_l=0;
-	
-	score_file = fopen("score","r+");
-
-	while((c = fgetc(score_file)) != "") {
-		if( c == '\n' ){
-			++nm_l;
-		}
-	}
-	return(nm_l);
-}
-
 void print_topten(int enable) {
 	if(enable){
-		int a,b,nm_l=0,c,count=0;
-		int tab_sc[1000];
+		int a,b,c,nm_l=0,count=0,nm_l2=0;
+	int tab_sc[1000];
 		FILE* score_file  = NULL;
-
-		score_file = fopen("score","r+");
-		nm_l = 1000;
-		printf("Top 10 :\n");
+		score_file = fopen(filename,"r+");
 	
+		printf("Top 10 :\n");
+		
+		while((c = fgetc(score_file)) != EOF) {
+   			 if( c == '\n' ){
+				++nm_l;
+   	 		}
+ 		 }
+
+		rewind(score_file);
+
 		for(a=0;a<nm_l;a++){
    	    	fscanf(score_file,"%d",&top[a]);
 			tab_sc[a] = top[a];
    	   }
-	
 		while(b) {
    	     b = 0 ;
 		    for(a=0;a<nm_l-1;a++){
@@ -335,11 +328,9 @@ void print_topten(int enable) {
 		}
 				   
 		for(a=0;a<10;++a){
-			
 			printf("%d %s : %d\n",count+1,USER,tab_sc[a]);
 			++count;
-		 }
-	
+		}
 		fclose(score_file);
  		}
 	}
@@ -350,7 +341,7 @@ void lose_screen(void) {
 	endwin();
 	print_mat(enable_print_mat);
 	printf("Your score : %d\n",score);
-	score_file = fopen("score","a");
+	score_file = fopen(filename,"a");
 	if(score){
 		fprintf(score_file,"%d \n",score);	
 	}
@@ -373,6 +364,7 @@ int main(int argc,char **argv) {
 	
 	int c;
 	srand(time(NULL));
+	sprintf(filename,"%s/.ttysnakescore",getenv("HOME"));
 	
 	static struct option long_options[] =
     {
