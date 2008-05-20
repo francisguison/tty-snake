@@ -21,31 +21,34 @@
 #include "config.h"
 #include "snake.h"
 
-/* variables */
-    
+/* ******** */
+/* VARIABLE */
+/* ******** */
+
 int act_random =		O_RANDL;
-int speed =			O_SPEED;
+int speed =				O_SPEED;
 int inc_tail =		 	O_INCT;
-int enable_rand_wall = 		O_RANDW;						
-int enable_print_mat =		O_PMAT;
+int enable_rand_wall = 	O_RANDW;						
+int enable_print_mat =	O_PMAT;
 int enable_bell = 		O_BELL;		/* bell option */
 int tail_length =		O_TLENGTH;	/* the tail's length */
-int enable_topten =		O_TOPTEN; 
-unsigned int score;				/* score */
+unsigned int score;					/* score */
 int mat[MAX_X][MAX_Y];				/* frame matrice */
-unsigned long tail;				/* snake's tail */
+unsigned long tail;					/* snake's tail */
 char filename[80];
 
-COORD food;				/* location X & Y of snake's food */
-COORD direction = {1,0};		/* direction (with key) */
-COORD snake[USHRT_MAX];			/* snake coordinated */  
-COORD coordinated = {3,3};		/* final location of snake */
-COORD randwall;				/* for the random wall fonction */
+COORD food;							/* location X & Y of snake's food */
+COORD direction = {1,0}	;			/* direction (with key) */
+COORD snake[USHRT_MAX];				/* snake coordinated */  
+COORD coordinated = {3,3};			/* final location of snake */
+COORD randwall;						/* for the random wall fonction */
 
 FILE* score_file  = NULL;
 int top[SHRT_MAX] = {0};
 
-/* start function */
+/* **************** */
+/* STARTING FUCTION */
+/* **************** */
 
 void start(void) {
 	initscr ();			/* ncurses init */
@@ -62,7 +65,9 @@ void start(void) {
 	init_pair(RANDW ,FGRANDW_COLOR, RANDW_COLOR);
 }
 
-/* random number function */
+/* *********************** */
+/* RANDOM NUMBERS FUNCTION */
+/* *********************** */
 
 int nrand(int min,int max) {
 	int nb;
@@ -70,7 +75,9 @@ int nrand(int min,int max) {
 	return nb;
 }
 
-/* fram drawing function */
+/* ********************** */
+/* FRAME DRAWING FUNCTION */
+/* ********************** */
 
 void draw_frame(void) {
 	int i;
@@ -94,6 +101,9 @@ void draw_frame(void) {
 	attroff(color(INFO));
 }
 			
+/* ******************* */
+/* SNAKE MAIN FUNCTION */
+/* ******************* */
 
 void snake_func(void) {
 	int key;	
@@ -159,13 +169,17 @@ void snake_func(void) {
 	}
 }
 
+/* ******************* */
+/* SNAKE FOOD FUNCTION */
+/* ******************* */
+
 void random_level(int enable) {
 	if(enable) {
 		attron(color(BORDER));
 		int rand1,rand2,rand_choose,
 			a,b,c,d,e,f,g,h,
 			c_ch,g_ch,
-			count=0,counts=0;
+			count=0,_count=0;
 		
 		rand1 = nrand(1,10);
 		rand2 = nrand(1,10);
@@ -190,21 +204,22 @@ void random_level(int enable) {
 			++count;
 		}
 		h = nrand(0,8);
-		while(counts != h) {
+		while(_count != h) {
 			e = nrand(1,rand2 );
 			f = nrand(2,76);
 			for(g=g_ch;g>e;g--){
 				mvaddstr(g,f," ");
 				mat[g][f]=4;
 			}
-		++counts;
+		++_count;
 		}
 	attroff(color(BORDER));	
 	}
 }
 		
-
-/* food make function */
+/* ******************* */
+/* SNAKE FOOD FUNCTION */
+/* ******************* */
 
 void snake_food(void) {
 	int pass=0;
@@ -220,6 +235,10 @@ void snake_food(void) {
 	mvaddstr(food.x,food.y,"*");
 	attroff(color(FOOD));
 }
+
+/* ******************** */
+/* RANDOM WALL FUNCTION */
+/* ******************** */
 
 void rand_wall(int enable) {
 	if (enable) {
@@ -237,8 +256,10 @@ void rand_wall(int enable) {
 		mat[randwall.x][randwall.y] = 2;
 	}
 }
-		
-/* check function (win) */
+
+/* ****************** */
+/* CHECK WIN FUNCTION */
+/* ****************** */
 
 void snake_win(int enable) {
 	init_pair(2,black,white);
@@ -256,6 +277,10 @@ void snake_win(int enable) {
 		snake_food();
 	}
 }
+
+/* ********************* */
+/* PRINT MATRIX FUNCTION */
+/* ********************* */
 
 void print_mat(int enable){
 	if(enable) {
@@ -289,55 +314,58 @@ void print_mat(int enable){
 	}
 }
 
-void change(int tab[], int i, int j){
-     int memoire;
-     memoire=tab[i];
-     tab[i]=tab[j];
-     tab[j]=memoire;
-}
+/* *************** */
+/* TOP 10 FUNCTION */
+/* *************** */
 
-void print_topten(int enable) {
-	if(enable){
-		int a,b,c,nm_l=0,count=0,nm_l2=0;
-		FILE* score_file  = NULL;
-		score_file = fopen(filename,"r+");
+void print_topten(void) {
+	int a,b,c,nm_l=0,mem;
+	FILE* score_file  = NULL;
+	score_file = fopen(filename,"r+");
+
+	while((c = fgetc(score_file)) != EOF) {
+		if( c == '\n' ){
+			++nm_l;
+  	 	}
+	}
 	
-		printf("Top 10 :\n");
+	int tab_sc[nm_l];
 		
-		while((c = fgetc(score_file)) != EOF) {
-   			 if( c == '\n' ){
-				++nm_l;
-   	 		}
- 		 }
-		int tab_sc[nm_l];
+	for(a=0 ; a < nm_l ;++a){
+		tab_sc[a] = 0;
+	}
+	rewind(score_file);
 
-		for(a=0 ; a < nm_l ;++a){
-			tab_sc[a] = 0;
-		}
-		
-		rewind(score_file);
-
-		for(a=0;a<nm_l;a++){
-   	    	fscanf(score_file,"%d",&top[a]);
-			tab_sc[a] = top[a];
-   	   }
-		while(b) {
-   	     b = 0 ;
-		    for(a=0;a<nm_l-1;a++){
-				if(tab_sc[a] < tab_sc[a+1]){
-					change(tab_sc,a,a+1);
-					b = 1;    
-				}
+	for(a=0;a<nm_l;a++){
+  	  	fscanf(score_file,"%d",&top[a]);
+		tab_sc[a] = top[a];
+  	}
+	
+	while(b) {
+  	    b = 0 ;
+	    for(a=0;a<nm_l-1;a++){
+			if(tab_sc[a] < tab_sc[a+1]){
+				
+				mem = tab_sc[a];
+				tab_sc[a] = tab_sc[a+1];
+				tab_sc[a+1] = mem;
+					
+				b = 1;    
 			}
 		}
-				   
-		for(a=0;a<10;++a){
-			printf("%d %s : %d\n",count+1,USER,tab_sc[a]);
-			++count;
-		}
-		fclose(score_file);
- 		}
 	}
+
+	printf("Top 10 :\n");
+	for(a=0;a<10;++a){
+		printf("%d %s : %d\n",a+1,USER,tab_sc[a]);
+	}
+
+	fclose(score_file);
+}
+
+/* ***************** */
+/* PRINT LOSE SCREEN */
+/* ***************** */
 
 void lose_screen(void) {
 	sleep(1);
@@ -353,7 +381,9 @@ void lose_screen(void) {
 	exit(EXIT_SUCCESS);
 }
 
-/* check function (lose) */
+/* ******************* */
+/* CHECK LOSE FUNCTION */
+/* ******************* */
 
 void lose(void) {
 
@@ -363,6 +393,10 @@ void lose(void) {
 		lose_screen();
 	}
 }
+
+/* ************ */
+/* MAIN FUCTION */
+/* ************ */
 
 int main(int argc,char **argv) {
 	
@@ -418,7 +452,7 @@ int main(int argc,char **argv) {
 				speed = atoi(optarg);
 				break;
 			case 'c':
-				print_topten(1);
+				print_topten();
 				exit(EXIT_SUCCESS);
 				break;
 			case 'r':

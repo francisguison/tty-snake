@@ -1,10 +1,9 @@
 
 tty-snake : snake.c
 
-	@echo "*** Building the snake ***"
+	@echo "*** Building ***"
 	@cc -lncurses $^ -o tty-snake -Wall -v
-	@echo "*** The snake have been built ***"
-	@echo "*** You can execute it without install with ./tty-snake --help ***"
+	@echo "*** TTY-Snake build ***"
 	@echo ""
 
 install :tty-snake
@@ -13,19 +12,19 @@ install :tty-snake
 	@cp tty-snake /usr/local/bin/
 	@echo "*** Snake moved ***"
 	@echo ""
-	@echo "*** Chmoding the snake ***"
+	@echo "*** Chmod the snake ***"
 	@chmod +x /usr/local/bin/tty-snake
-	@echo "*** Your snake is installed. play with it: tty-snake --help ***"
+	@echo "*** TTY-Snake is now installed ***"
 	@echo ""
 
 uninstall :
 
-	@echo "*** Decapiting the snake ***"
+	@echo "*** Uninstall TTY-Snake ***"
 	@rm -f /usr/local/bin/tty-snake
 	@echo "*** Snake decapited :'( ***"
 
 clean :
 
-	@echo "*** Cleaning the snake ***"
+	@echo "*** Cleaning TTY-snake ***"
 	@rm tty-snake
 	@echo "*** Your snake is clean ;) ***"

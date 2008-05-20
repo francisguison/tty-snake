@@ -17,6 +17,7 @@
 #define FGRANDW_COLOR black
 
 /* OPTION */
+
 /* user */
 #define USER "martin"
 /* speed */
@@ -33,5 +34,4 @@
 #define O_TLENGTH  5
 /* print matrix */
 #define O_PMAT TRUE
-/* topten option */
-#define O_TOPTEN TRUE
+

@@ -83,8 +83,7 @@ void snake_win(int enable);
 void rand_wall(int enable);
 void random_level(int enable);
 void print_mat(int enable);
-void print_topten(int enable);
-void change(int tab[], int i, int j);
+void print_topten(void);
 int nrand(int min,int max);
 
 typedef struct {
