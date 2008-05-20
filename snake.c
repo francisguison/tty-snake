@@ -440,6 +440,7 @@ int main(int argc,char **argv) {
 				printf("TTY-Snake , By Duquesnoy Martin\n");
 				exit(EXIT_SUCCESS);
 				break;
+			default:
 			case 'h':
 				help_print();
 				break;
