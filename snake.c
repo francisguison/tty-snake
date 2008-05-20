@@ -299,7 +299,6 @@ void change(int tab[], int i, int j){
 void print_topten(int enable) {
 	if(enable){
 		int a,b,c,nm_l=0,count=0,nm_l2=0;
-	int tab_sc[1000];
 		FILE* score_file  = NULL;
 		score_file = fopen(filename,"r+");
 	
@@ -310,7 +309,12 @@ void print_topten(int enable) {
 				++nm_l;
    	 		}
  		 }
+		int tab_sc[nm_l];
 
+		for(a=0 ; a < nm_l ;++a){
+			tab_sc[a] = 0;
+		}
+		
 		rewind(score_file);
 
 		for(a=0;a<nm_l;a++){
