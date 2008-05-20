@@ -25,7 +25,7 @@
 /* VARIABLE */
 /* ******** */
 
-int act_random =		O_RANDL;
+int enable_random =		O_RANDL;
 int speed =				O_SPEED;
 int inc_tail =		 	O_INCT;
 int enable_rand_wall = 	O_RANDW;						
@@ -51,13 +51,13 @@ int top[SHRT_MAX] = {0};
 /* **************** */
 
 void start(void) {
-	initscr ();			/* ncurses init */
+	initscr ();		                       
  	noecho (); 
  	start_color ();
  	refresh();
- 	keypad (stdscr, TRUE);				/* for arrow key */
+ 	keypad (stdscr, TRUE);				                         
 	curs_set(0);
-	/* init color */
+                 
 	init_pair(BORDER ,FGBORDER_COLOR, BORDER_COLOR);
 	init_pair(INFO ,FGINFO_COLOR, INFO_COLOR);
 	init_pair(SNAKE ,FGSNAKE_COLOR, SNAKE_COLOR);
@@ -107,25 +107,22 @@ void draw_frame(void) {
 
 void snake_func(void) {
 	int key;	
-	coordinated.x += direction.x;    			/* snake direction incrementation */ 	
+	coordinated.x += direction.x;    			                                     	
 	coordinated.y += direction.y; 
-	++tail;										/* tail incrementation */
+	++tail;										                                
 	snake[tail].x = coordinated.x;		
 	snake[tail].y = coordinated.y;		
 
-	/* check snake_win situation */
 	snake_win(enable_bell);
-	/* check the losing situation */
+	
 	lose();	
-	/* draw the snake */
+	
 	move(coordinated.x,coordinated.y);			
 	attron(color(SNAKE));
 	printw(" ");	
 	attroff(color(SNAKE));
-	/* put the addstr at the left-top */
 	mat[coordinated.x][coordinated.y]=1;
 	halfdelay(1);	
-	/* remove the end of the tail when the lenght is reached */
 	
 	if(tail>tail_length) {
 		mvaddstr(snake[tail-tail_length].x , snake[tail-tail_length].y, " ");
@@ -135,25 +132,25 @@ void snake_func(void) {
 	key=getch();
 
 	switch(key) {
-		case KEY_UP: 					/* for up key arrow  */
+		case KEY_UP:
 			if(!direction.x) {
 				direction.x = -1;
 				direction.y = 0;
 			}
 			break;
-		case KEY_DOWN:					/* for down key arrow */
+		case KEY_DOWN:					                        
 			if(!direction.x) {
 				direction.x = 1;
 				direction.y = 0;
 			}
 			break;
-		case KEY_LEFT:					/* for left key arrow */
+		case KEY_LEFT:					                          
 			if(!direction.y) {
 				direction.y = -1;
 				direction.x = 0;
 			}
 			break;
-		case KEY_RIGHT:					/* for right key arrow */
+		case KEY_RIGHT:					                         
 			if(!direction.y) {
 				direction.y = 1;
 				direction.x = 0;
@@ -266,7 +263,7 @@ void snake_win(int enable) {
 	char bell;
 	bell = enable ? '\a' : 0;
 	if(mat[coordinated.x][coordinated.y] == 3) {
-		printf("%c",bell); 			/* for make a sound when the snake eat */
+		printf("%c",bell); 			
 		++score;
 		tail_length += inc_tail;
 		move(0,20);
@@ -456,7 +453,7 @@ int main(int argc,char **argv) {
 				exit(EXIT_SUCCESS);
 				break;
 			case 'r':
-				act_random = 1;
+				enable_random = 1;
 				break;
 			case 'l':
 				if(atoi(optarg)<1) {
@@ -484,10 +481,10 @@ int main(int argc,char **argv) {
 		}
 	 }
 
-	start();			/* init ncurses */
-	snake_food(); 			/* init the food */
-	draw_frame(); 			/* init the frame */
- 	random_level(act_random); 	/* init the random level if it's enable */
+	start();			                   
+	snake_food(); 			                      
+	draw_frame(); 			                    
+ 	random_level(enable_random); 	                                                         
 
 	while(1) {
 		snake_func();
