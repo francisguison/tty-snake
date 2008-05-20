@@ -25,24 +25,24 @@
 /* VARIABLE */
 /* ******** */
 
-unsigned int score;					/* score */
-int mat[MAX_X][MAX_Y];				/* frame matrice */
-unsigned long tail;					/* snake's tail */
+unsigned long tail;					                      
+unsigned int score;	
 char filename[80];
+int mat[MAX_X][MAX_Y];				                       
 int speed =				O_SPEED;
 int inc_tail =		 	O_INCT;
-int tail_length =		O_TLENGTH;	/* the tail's length */
+int tail_length =		O_TLENGTH;	                        
 
 BOOLEAN enable_random =		O_RANDL;
 BOOLEAN enable_rand_wall = 	O_RANDW;						
 BOOLEAN enable_print_mat =	O_PMAT;
-BOOLEAN enable_bell = 		O_BELL;		/* bell option */
+BOOLEAN enable_bell = 		O_BELL;		
 
 COORD food;							/* location X & Y of snake's food */
 COORD direction = {1,0}	;			/* direction (with key) */
 COORD snake[USHRT_MAX];				/* snake coordinated */  
 COORD coordinated = {3,3};			/* final location of snake */
-COORD randwall;						/* for the random wall fonction */
+COORD randwall;						/* random wall fonction */
 
 FILE* score_file  = NULL;
 int top[SHRT_MAX] = {0};
@@ -157,19 +157,26 @@ void snake_func(void) {
 				direction.x = 0;
 			}
 			break;
+		
+/* pause option */
 		case 'p':
+		case 'P':
 			while(getchar() != 'p');
 			break;
+
+/* quit key binding */
 		case 'q':
+		case 'Q':
 			lose();
 			break;
 	refresh();
 	}
 }
 
-/* ******************* */
-/* SNAKE FOOD FUNCTION */
-/* ******************* */
+/* ********************* */
+/* RANDOM LEVEL FUNCTION */
+/* /!\ EXPERIMENTAL /!\  */
+/* ********************* */
 
 void random_level(int enable) {
 	if(enable) {
@@ -262,14 +269,16 @@ void rand_wall(int enable) {
 void snake_win(int enable) {
 	init_pair(2,black,white);
 	char bell;
+
 	bell = enable ? '\a' : 0;
+
 	if(mat[coordinated.x][coordinated.y] == 3) {
 		printf("%c",bell); 			
 		++score;
 		tail_length += inc_tail;
 		move(0,20);
 		attron(color(2));
-			printw("%d",score);
+		printw("%d",score);
 		attroff(color(2));
 		rand_wall(enable_rand_wall);
 		snake_food();
