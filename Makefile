@@ -8,11 +8,11 @@ tty-snake : snake.c
 
 install :tty-snake
   
-	@echo "*** Moving the snake ***"
+	@echo "*** Moving TTY-Snake ***"
 	@cp tty-snake /usr/local/bin/
 	@echo "*** Snake moved ***"
 	@echo ""
-	@echo "*** Chmod the snake ***"
+	@echo "*** Chmod TTY-Snake ***"
 	@chmod +x /usr/local/bin/tty-snake
 	@echo "*** TTY-Snake is now installed ***"
 	@echo ""
@@ -21,10 +21,10 @@ uninstall :
 
 	@echo "*** Uninstall TTY-Snake ***"
 	@rm -f /usr/local/bin/tty-snake
-	@echo "*** Snake decapited :'( ***"
+	@echo "*** TTY-Snake uninstalled :'( ***"
 
 clean :
 
 	@echo "*** Cleaning TTY-snake ***"
 	@rm tty-snake
-	@echo "*** Your snake is clean ;) ***"
+	@echo "*** Your TTY-Snake is clean ;) ***"

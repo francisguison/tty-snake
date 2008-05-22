@@ -1,4 +1,4 @@
-/*		snake.c	- Snake main function
+/*		snake.c	- TTY-Snake main function
  *
  * 		Copyright © 2008 Duquesnoy Martin <xorg62@gmail.com>
  *
@@ -58,7 +58,7 @@ void start(void) {
  	refresh();
  	keypad (stdscr, TRUE);				                         
 	curs_set(0);
-                 
+	raw();           
 	init_pair(BORDER ,FGBORDER_COLOR, BORDER_COLOR);
 	init_pair(INFO ,FGINFO_COLOR, INFO_COLOR);
 	init_pair(SNAKE ,FGSNAKE_COLOR, SNAKE_COLOR);
@@ -100,6 +100,7 @@ void draw_frame(void) {
 	attron(color(INFO));
 	mvaddstr(0,12,"Score : 0");
 	attroff(color(INFO));
+	mvaddstr(0,35,"TTY-Sn4k3");
 }
 			
 /* ******************* */
@@ -161,6 +162,7 @@ void snake_func(void) {
 /* pause option */
 		case 'p':
 		case 'P':
+		case ' ' :
 			while(getchar() != 'p');
 			break;
 
@@ -316,7 +318,7 @@ void print_mat(int enable){
 			printf("%d",mat[i][j]);
 			colors(0,0);
 			}
-			printf("\n");
+			putchar('\n');
 		}
 	}
 }
@@ -432,12 +434,12 @@ int main(int argc,char **argv) {
 
 		switch(c) {
 			case 'v':
-				printf("TTY-Snake beta3\nCompiled at %s ",__DATE__);
+				printf("TTY-Snake 0.1\nCompiled at %s ",__DATE__);
 				printf("%s\n",__TIME__);
 				exit(EXIT_SUCCESS);
 				break;
 			case 'i':
-				printf("TTY-Snake , By Duquesnoy Martin\n");
+				printf("TTY-Snake , By Duquesnoy Martin (xorg62)\n");
 				exit(EXIT_SUCCESS);
 				break;
 			default:
@@ -445,10 +447,10 @@ int main(int argc,char **argv) {
 				help_print();
 				break;
 			case 'w':
-				enable_rand_wall = 1;
+				enable_rand_wall = true;
 				break;
 			case 'm':
-				enable_print_mat = 1;
+				enable_print_mat = true;
 				break;
 			case 't':
 				inc_tail = atoi(optarg);
@@ -464,7 +466,7 @@ int main(int argc,char **argv) {
 				exit(EXIT_SUCCESS);
 				break;
 			case 'r':
-				enable_random = 1;
+				enable_random = true;
 				break;
 			case 'l':
 				if(atoi(optarg)<1) {
@@ -473,7 +475,7 @@ int main(int argc,char **argv) {
 				tail_length = atoi(optarg);
 				break;
 			case 'b':
-				enable_bell = 1;
+				enable_bell = true;
 				break;
 			case 'x':
 				if(atoi(optarg) > MAX_X-1
@@ -484,7 +486,7 @@ int main(int argc,char **argv) {
 				break;
 			case 'y':
 				if(atoi(optarg) > MAX_Y-1
-					|| atoi(optarg) < 1 ) {
+				|| atoi(optarg) < 1 ) {
 					help_print();
 				}
 				coordinated.y = atoi(optarg);

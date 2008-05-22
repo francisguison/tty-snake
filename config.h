@@ -19,7 +19,7 @@
 /* OPTION */
 
 /* user */
-#define USER "martin"
+#define USER "you"
 /* speed */
 #define O_SPEED 600
 /* random wall */

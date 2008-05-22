@@ -1,4 +1,4 @@
-/*		snake.h	- Snake main header
+/*		snake.h	- TTY-Snake main header
  *
  * 		Copyright © 2008 Duquesnoy Martin <xorg62@gmail.com>
  *
@@ -55,7 +55,7 @@
 #define yellow COLOR_YELLOW
 
 
-#define help_print() printf("snake Usage : snake [option] [option] <arg> \n\n\
+#define help_print() printf("tty-snake 0.1 Usage : tty-snake [option] [option] <arg> \n\n\
   -x <num>	  	X position of snake\n\
   -y <num>		Y position of snake\n\
   -r, --random		Make a random level\n\
