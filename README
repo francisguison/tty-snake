@@ -17,4 +17,4 @@ tty-snake 0.1 Usage : tty-snake [option] [option] <arg>
 you can configure TTY-Snake to the config.h
 <num> must to be an integer (x must be < 24 and y < 78) 
 WARNING ! the random level function is experimental
-:
+
