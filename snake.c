@@ -33,10 +33,10 @@ int speed =				O_SPEED;
 int inc_tail =		 	O_INCT;
 int tail_length =		O_TLENGTH;	                        
 
-BOOLEAN enable_random =		O_RANDL;
-BOOLEAN enable_rand_wall = 	O_RANDW;						
-BOOLEAN enable_print_mat =	O_PMAT;
-BOOLEAN enable_bell = 		O_BELL;		
+BOOL enable_random =		O_RANDL;
+BOOL enable_rand_wall = 	O_RANDW;						
+BOOL enable_print_mat =		O_PMAT;
+BOOL enable_bell = 			O_BELL;		
 
 COORD food;							/* location X & Y of snake's food */
 COORD direction = {1,0}	;			/* direction (with key) */

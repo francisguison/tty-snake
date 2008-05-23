@@ -37,7 +37,6 @@
 #define FOOD 4
 #define RANDW 5
 
-#define BOOLEAN bool
 #define TRUE 1
 #define FALSE 0
 
@@ -92,5 +91,10 @@ typedef struct {
 	int x;
 	int y;
 } COORD;
+
+typedef enum {
+	False,True 
+} BOOL;
+
 
 #endif
