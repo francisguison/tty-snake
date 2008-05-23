@@ -1,1 +1,20 @@
-this is the readme :)
+tty-snake 0.1 Usage : tty-snake [option] [option] <arg> 
+
+  -x <num>	  	X position of snake
+  -y <num>		Y position of snake
+  -r, --random		Make a random level
+  -t, --tailinc		Snake incrementation food value
+  -w, --randwall	Make a wall when the snake eat
+  -s, --speed		Speed (milisecond of equart)
+  -c, --topten		Print the Top 10
+  -b, --bell		For enable the sound system
+  -l, --length		For choose the tail length 
+  -m, --pmat		Print matrix when you lose
+  -v, --version		Print version
+  -i, --info		Print info
+  -h, --help		Print help (this page)
+
+you can configure TTY-Snake to the config.h
+<num> must to be an integer (x must be < 24 and y < 78) 
+WARNING ! the random level function is experimental
+:
