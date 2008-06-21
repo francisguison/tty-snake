@@ -44,6 +44,7 @@
 
 
 #define color COLOR_PAIR
+#define termbg bg
 #define white COLOR_WHITE
 #define black COLOR_BLACK
 #define red COLOR_RED
@@ -54,7 +55,7 @@
 #define yellow COLOR_YELLOW
 
 
-#define help_print() printf("tty-snake 0.1 Usage : tty-snake [option] [option] <arg> \n\n\
+#define help_print() printf("tty-snake 0.2alpha1 Usage : tty-snake [option] [option] <arg> \n\n\
   -x <num>	  	X position of snake\n\
   -y <num>		Y position of snake\n\
   -r, --random		Make a random level\n\
@@ -92,9 +93,14 @@ typedef struct {
 	int y;
 } COORD;
 
-typedef enum {
-	False,True 
-} BOOL;
-
+typedef struct {
+	int speed;		
+	int inctail; 		 	
+	int tlength;			                        
+	bool random;		
+	bool randw;  							
+	bool printmat; 		
+	bool bell;		  	
+} OPTIONS;
 
 #endif

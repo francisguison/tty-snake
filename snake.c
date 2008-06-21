@@ -29,14 +29,17 @@ unsigned long tail;
 unsigned int score;	
 char filename[80];
 int mat[MAX_X][MAX_Y];				                       
-int speed =				O_SPEED;
-int inc_tail =		 	O_INCT;
-int tail_length =		O_TLENGTH;	                        
+int bg = COLOR_BLACK;
 
-BOOL enable_random =		O_RANDL;
-BOOL enable_rand_wall = 	O_RANDW;						
-BOOL enable_print_mat =		O_PMAT;
-BOOL enable_bell = 			O_BELL;		
+OPTIONS option = {
+	O_SPEED,						/* option.speed */
+	O_INCT,							/* option.inctail */
+	O_TLENGTH,						/* option.tlength */
+	O_RANDL,						/* option.random */	
+	O_RANDW,						/* option.randw*/	
+	O_PMAT,							/* option.printmat */	
+	O_BELL 							/* option.bell */
+};
 
 COORD food;							/* location X & Y of snake's food */
 COORD direction = {1,0}	;			/* direction (with key) */
@@ -51,11 +54,14 @@ int top[SHRT_MAX] = {0};
 /* STARTING FUCTION */
 /* **************** */
 
-void start(void) {
+void 
+start(void) {
 	initscr ();		                       
  	noecho (); 
  	start_color ();
  	refresh();
+	if (use_default_colors() == OK);
+	bg = -1;
  	keypad (stdscr, TRUE);				                         
 	curs_set(0);
 	raw();           
@@ -70,7 +76,8 @@ void start(void) {
 /* RANDOM NUMBERS FUNCTION */
 /* *********************** */
 
-int nrand(int min,int max) {
+int 
+nrand(int min,int max) {
 	int nb;
 	nb = (rand() % (max - min + 1)) + min;
 	return nb;
@@ -80,7 +87,8 @@ int nrand(int min,int max) {
 /* FRAME DRAWING FUNCTION */
 /* ********************** */
 
-void draw_frame(void) {
+void
+draw_frame(void) {
 	int i;
 	attron(color(BORDER));
 	for(i=0;i<MAX_X;i++){
@@ -107,7 +115,8 @@ void draw_frame(void) {
 /* SNAKE MAIN FUNCTION */
 /* ******************* */
 
-void snake_func(void) {
+void 
+snake_func(void) {
 	int key;	
 	coordinated.x += direction.x;    			                                     	
 	coordinated.y += direction.y; 
@@ -115,7 +124,7 @@ void snake_func(void) {
 	snake[tail].x = coordinated.x;		
 	snake[tail].y = coordinated.y;		
 
-	snake_win(enable_bell);
+	snake_win(option.bell);
 	
 	lose();	
 	
@@ -126,9 +135,9 @@ void snake_func(void) {
 	mat[coordinated.x][coordinated.y]=1;
 	halfdelay(1);	
 	
-	if(tail>tail_length) {
-		mvaddstr(snake[tail-tail_length].x , snake[tail-tail_length].y, " ");
-		mat[snake[tail-tail_length].x][snake[tail-tail_length].y] = 0;
+	if(tail>option.tlength) {
+		mvaddstr(snake[tail-option.tlength].x , snake[tail-option.tlength].y, " ");
+		mat[snake[tail-option.tlength].x][snake[tail-option.tlength].y] = 0;
 	}
 
 	key=getch();
@@ -160,6 +169,7 @@ void snake_func(void) {
 			break;
 		
 /* pause option */
+
 		case 'p':
 		case 'P':
 		case ' ' :
@@ -167,6 +177,7 @@ void snake_func(void) {
 			break;
 
 /* quit key binding */
+
 		case 'q':
 		case 'Q':
 			lose();
@@ -180,7 +191,8 @@ void snake_func(void) {
 /* /!\ EXPERIMENTAL /!\  */
 /* ********************* */
 
-void random_level(int enable) {
+void 
+random_level(int enable) {
 	if(enable) {
 		attron(color(BORDER));
 		int rand1,rand2,rand_choose,
@@ -228,7 +240,8 @@ void random_level(int enable) {
 /* SNAKE FOOD FUNCTION */
 /* ******************* */
 
-void snake_food(void) {
+void 
+snake_food(void) {
 	int pass=0;
 	while(pass != 1) {	
 		food.x = nrand(3,22);
@@ -247,7 +260,8 @@ void snake_food(void) {
 /* RANDOM WALL FUNCTION */
 /* ******************** */
 
-void rand_wall(int enable) {
+void 
+randw(int enable) {
 	if (enable) {
 		int pass=0;
 		while(pass != 1) {
@@ -268,7 +282,8 @@ void rand_wall(int enable) {
 /* CHECK WIN FUNCTION */
 /* ****************** */
 
-void snake_win(int enable) {
+void
+snake_win(int enable) {
 	init_pair(2,black,white);
 	char bell;
 
@@ -277,12 +292,12 @@ void snake_win(int enable) {
 	if(mat[coordinated.x][coordinated.y] == 3) {
 		printf("%c",bell); 			
 		++score;
-		tail_length += inc_tail;
+		option.tlength += option.inctail;
 		move(0,20);
 		attron(color(2));
 		printw("%d",score);
 		attroff(color(2));
-		rand_wall(enable_rand_wall);
+		randw(option.randw);
 		snake_food();
 	}
 }
@@ -291,7 +306,8 @@ void snake_win(int enable) {
 /* PRINT MATRIX FUNCTION */
 /* ********************* */
 
-void print_mat(int enable){
+void 
+printmat(int enable){
 	if(enable) {
 		int i,j;
 		int fg,bg;
@@ -327,7 +343,8 @@ void print_mat(int enable){
 /* TOP 10 FUNCTION */
 /* *************** */
 
-void print_topten(void) {
+void 
+print_topten(void) {
 	int a,b,c,nm_l=0,mem;
 	FILE* score_file  = NULL;
 	score_file = fopen(filename,"r+");
@@ -376,11 +393,12 @@ void print_topten(void) {
 /* PRINT LOSE SCREEN */
 /* ***************** */
 
-void lose_screen(void) {
+void 
+lose_screen(void) {
 	sleep(1);
 	clear();
 	endwin();
-	print_mat(enable_print_mat);
+	printmat(option.printmat);
 	printf("Your score : %d\n",score);
 	score_file = fopen(filename,"a");
 	if(score){
@@ -394,7 +412,8 @@ void lose_screen(void) {
 /* CHECK LOSE FUNCTION */
 /* ******************* */
 
-void lose(void) {
+void 
+lose(void) {
 
 	if((mat[coordinated.x][coordinated.y] == 1)
 	|| (mat[coordinated.x][coordinated.y] == 2)
@@ -407,35 +426,34 @@ void lose(void) {
 /* MAIN FUCTION */
 /* ************ */
 
-int main(int argc,char **argv) {
+int 
+main(int argc,char **argv) {
 	
 	int c;
 	srand(time(NULL));
 	sprintf(filename,"%s/.ttysnakescore",getenv("HOME"));
 	
-	static struct option long_options[] =
-    {
-	{"help",    0, NULL, 'h'},
-	{"version", 0, NULL, 'v'},
-	{"info",	0, NULL, 'i'},
-	{"random",	0, NULL, 'r'},
-	{"bell",	0, NULL, 'b'},
-	{"randwall",0, NULL, 'w'},
-	{"tailinc",	0, NULL, 't'},	
-	{"length",	0, NULL, 'l'},
-	{"speed",	0, NULL, 's'},
-	{"pmat",	0, NULL, 'm'},
-	{"topten",	0, NULL, 'c'},
-    {NULL,      0, NULL, 0}
-    };
+	static struct option long_options[] = {
+		{"help",    0, NULL, 'h'},
+		{"version", 0, NULL, 'v'},
+		{"info",	0, NULL, 'i'},
+		{"random",	0, NULL, 'r'},
+		{"bell",	0, NULL, 'b'},
+		{"randwall",0, NULL, 'w'},
+		{"tailinc",	0, NULL, 't'},	
+		{"length",	0, NULL, 'l'},
+		{"speed",	0, NULL, 's'},
+		{"pmat",	0, NULL, 'm'},
+		{"topten",	0, NULL, 'c'},
+	    {NULL,      0, NULL, 0}
+	};
 
 	 while ((c = getopt_long(argc,argv,":vimbwt:rhcx:y:s:l:",
 					 long_options,NULL)) != -1) {
 
 		switch(c) {
 			case 'v':
-				printf("TTY-Snake 0.1\nCompiled at %s ",__DATE__);
-				printf("%s\n",__TIME__);
+				printf("TTY-Snake 0.2alpha1 " __DATE__  " Compiled at " __TIME__ " by %s\n",getenv("USER"));
 				exit(EXIT_SUCCESS);
 				break;
 			case 'i':
@@ -447,35 +465,35 @@ int main(int argc,char **argv) {
 				help_print();
 				break;
 			case 'w':
-				enable_rand_wall = true;
+				option.randw = true;
 				break;
 			case 'm':
-				enable_print_mat = true;
+				option.printmat = true;
 				break;
 			case 't':
-				inc_tail = atoi(optarg);
+				option.inctail = atoi(optarg);
 				break;
 			case 's':
 				if(atoi(optarg)<0) {
 					help_print();
 				}
-				speed = atoi(optarg);
+				option.speed = atoi(optarg);
 				break;
 			case 'c':
 				print_topten();
 				exit(EXIT_SUCCESS);
 				break;
 			case 'r':
-				enable_random = true;
+				option.random = true;
 				break;
 			case 'l':
 				if(atoi(optarg)<1) {
 					help_print();
 				} 
-				tail_length = atoi(optarg);
+				option.tlength = atoi(optarg);
 				break;
 			case 'b':
-				enable_bell = true;
+				option.bell = true;
 				break;
 			case 'x':
 				if(atoi(optarg) > MAX_X-1
@@ -497,11 +515,11 @@ int main(int argc,char **argv) {
 	start();			                   
 	snake_food(); 			                      
 	draw_frame(); 			                    
- 	random_level(enable_random); 	                                                         
+ 	random_level(option.random); 	                                                         
 
 	while(1) {
 		snake_func();
-		usleep(speed);
+		usleep(option.speed);
 	}
 }
 

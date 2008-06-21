@@ -2,7 +2,7 @@
 tty-snake : snake.c
 
 	@echo "*** Building ***"
-	@cc -lncurses $^ -o tty-snake -Wall -v
+	@cc -lncurses $^ -o tty-snake -Wall 
 	@echo "*** TTY-Snake build ***"
 	@echo ""
 
