@@ -1,9 +1,10 @@
-/* COLOR 
+/* COLOR  */
 
-Colors ; white, black, red, blue,         
-         cyan, green, magenta ,yellow,    
-         termbg (default terminal color).
-*/
+/* *************************************** */
+/* Colors: white, black, red, blue,        */         
+/*         cyan, green, magenta ,yellow,   */    
+/*         termbg (default terminal color).*/
+/* *************************************** */
 
 /* border color */
 #define BORDER_COLOR white

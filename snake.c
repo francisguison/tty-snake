@@ -30,22 +30,23 @@ unsigned int score;
 char filename[80];
 int mat[MAX_X][MAX_Y];				                       
 int bg = COLOR_BLACK;
+const int lose_option[DEFEAT_POSSIBILITY] = {1,2,4};
 
-OPTIONS option = {
-	O_SPEED,						/* option.speed */
-	O_INCT,							/* option.inctail */
-	O_TLENGTH,						/* option.tlength */
-	O_RANDL,						/* option.random */	
-	O_RANDW,						/* option.randw*/	
+option_t option = {
+	O_SPEED,						/* option.speed    */
+	O_INCT,							/* option.inctail  */
+	O_TLENGTH,						/* option.tlength  */
+	O_RANDL,						/* option.randl    */	
+	O_RANDW,						/* option.randw    */	
 	O_PMAT,							/* option.printmat */	
-	O_BELL 							/* option.bell */
+	O_BELL 							/* option.bell     */
 };
 
-COORD food;							/* location X & Y of snake's food */
-COORD direction = {1,0}	;			/* direction (with key) */
-COORD snake[USHRT_MAX];				/* snake coordinated */  
-COORD coordinated = {3,3};			/* final location of snake */
-COORD randwall;						/* random wall fonction */
+coord_t food;						/* location X & Y of snake's food */
+coord_t direction = {1,0};			/* direction (with key)           */
+coord_t snake[USHRT_MAX];			/* snake coordinated              */  
+coord_t coordinated = {3,3};		/* final location of snake        */
+coord_t randwall;					/* random wall fonction           */
 
 FILE* score_file  = NULL;
 int top[SHRT_MAX] = {0};
@@ -60,16 +61,32 @@ start(void) {
  	noecho (); 
  	start_color ();
  	refresh();
-	if (use_default_colors() == OK);
-	bg = -1;
+	bg = (use_default_colors() == OK) ? -1 : black;
  	keypad (stdscr, TRUE);				                         
 	curs_set(0);
 	raw();           
-	init_pair(BORDER ,FGBORDER_COLOR, BORDER_COLOR);
-	init_pair(INFO ,FGINFO_COLOR, INFO_COLOR);
-	init_pair(SNAKE ,FGSNAKE_COLOR, SNAKE_COLOR);
-	init_pair(FOOD ,FGFOOD_COLOR, FOOD_COLOR);
-	init_pair(RANDW ,FGRANDW_COLOR, RANDW_COLOR);
+	init_pair(BORDER, FGBORDER_COLOR, BORDER_COLOR);
+	init_pair(INFO,   FGINFO_COLOR,   INFO_COLOR);
+	init_pair(SNAKE,  FGSNAKE_COLOR,  SNAKE_COLOR);
+	init_pair(FOOD,   FGFOOD_COLOR,   FOOD_COLOR);
+	init_pair(RANDW,  FGRANDW_COLOR,  RANDW_COLOR);
+}
+
+/* *************************** */
+/* CHECK CONSOLE SIZE FUNCTION */
+/* *************************** */
+
+void
+check_termsize(void) {
+	if(getmaxx(stdscr) < 80
+    || getmaxy(stdscr) < 25) {
+		mvaddstr(getmaxy(stdscr) / 2,
+				 getmaxx(stdscr) / 2 - 9,
+				 "TERMINAL TOO SMALL");
+		getch();
+		endwin();
+		exit(EXIT_FAILURE);
+	}
 }
 
 /* *********************** */
@@ -167,17 +184,11 @@ snake_func(void) {
 				direction.x = 0;
 			}
 			break;
-		
-/* pause option */
-
 		case 'p':
 		case 'P':
 		case ' ' :
 			while(getchar() != 'p');
 			break;
-
-/* quit key binding */
-
 		case 'q':
 		case 'Q':
 			lose();
@@ -310,27 +321,27 @@ void
 printmat(int enable){
 	if(enable) {
 		int i,j;
-		int fg,bg;
+		int fg,bgc;
 		for(i=0;i<25;i++){
 			for(j=0;j<80;j++){
 				switch(mat[i][j]){
 					case 0:
-						fg = 37;bg = 40;
+						fg = 37;bgc = 40;
 						break;
 					case 1:
-						fg = 30;bg = 42;
+						fg = 30;bgc = 42;
 						break;
 					case 2:
-						fg = 30;bg = 41;
+						fg = 30;bgc = 41;
 						break;
 					case 3:
-						fg = 30;bg = 44;
+						fg = 30;bgc = 44;
 						break;
 					case 4:
-						fg = 30;bg = 47;
+						fg = 30;bgc = 47;
 						break;
 				}
-			colors(bg,fg);
+			colors(bgc,fg);
 			printf("%d",mat[i][j]);
 			colors(0,0);
 			}
@@ -414,11 +425,11 @@ lose_screen(void) {
 
 void 
 lose(void) {
-
-	if((mat[coordinated.x][coordinated.y] == 1)
-	|| (mat[coordinated.x][coordinated.y] == 2)
-	|| (mat[coordinated.x][coordinated.y] == 4)) {
-		lose_screen();
+	int i;
+	for(i = 0; i < DEFEAT_POSSIBILITY; ++i) {
+		if(mat[coordinated.x][coordinated.y] == lose_option[i]) {
+			lose_screen();
+		}	
 	}
 }
 
@@ -448,7 +459,7 @@ main(int argc,char **argv) {
 	    {NULL,      0, NULL, 0}
 	};
 
-	 while ((c = getopt_long(argc,argv,":vimbwt:rhcx:y:s:l:",
+	 while ((c = getopt_long(argc,argv,":vdimbwt:rhcx:y:s:l:",
 					 long_options,NULL)) != -1) {
 
 		switch(c) {
@@ -484,7 +495,10 @@ main(int argc,char **argv) {
 				exit(EXIT_SUCCESS);
 				break;
 			case 'r':
-				option.random = true;
+				option.randl = true;
+				break;
+			case 'd':
+		//		option = {600, 1, 5, FALSE, FALSE, TRUE, FALSE};
 				break;
 			case 'l':
 				if(atoi(optarg)<1) {
@@ -512,10 +526,11 @@ main(int argc,char **argv) {
 		}
 	 }
 
-	start();			                   
+	start();
+	check_termsize();
 	snake_food(); 			                      
 	draw_frame(); 			                    
- 	random_level(option.random); 	                                                         
+ 	random_level(option.randl); 	                                                         
 
 	while(1) {
 		snake_func();

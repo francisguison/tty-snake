@@ -40,6 +40,8 @@
 #define TRUE 1
 #define FALSE 0
 
+#define DEFEAT_POSSIBILITY 3
+
 #define colors(bg,fg) printf("\033[%d;%dm",bg,fg)
 
 
@@ -75,7 +77,9 @@ WARNING ! the random level function is experimental\n");\
 exit(EXIT_SUCCESS);
 
 
+
 void start(void);
+void check_termsize(void);
 void draw_frame(void);
 void snake_func(void);
 void lose_screen(void);
@@ -91,16 +95,16 @@ int nrand(int min,int max);
 typedef struct {
 	int x;
 	int y;
-} COORD;
+} coord_t;
 
 typedef struct {
 	int speed;		
 	int inctail; 		 	
 	int tlength;			                        
-	bool random;		
+	bool randl;		
 	bool randw;  							
 	bool printmat; 		
 	bool bell;		  	
-} OPTIONS;
+} option_t;
 
 #endif
