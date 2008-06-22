@@ -44,11 +44,11 @@ option_t  option = {
 
 option_t def_option = {600,	1, 5, FALSE, FALSE,TRUE, FALSE};
 
-coord_t food;						/* location X & Y of snake's food */
-coord_t direction = {1,0};			/* direction (with key)           */
-coord_t snake[USHRT_MAX];			/* snake coordinated              */  
-coord_t coordinated = {3,3};		/* final location of snake        */
-coord_t randwall;					/* random wall fonction           */
+coord_t food;				                     	/* location X & Y of snake's food */
+coord_t direction = {1,0};			                /* direction (with key)           */
+coord_t snake[USHRT_MAX];			                /* snake coordinated              */
+coord_t coordinated = {3,3};		                        /* final location of snake        */
+coord_t randwall;					        /* random wall fonction           */
 
 FILE* score_file  = NULL;
 int top[SHRT_MAX] = {0};
@@ -450,17 +450,17 @@ main(int argc,char **argv) {
 	static struct option long_options[] = {
 		{"help",    0, NULL, 'h'},
 		{"version", 0, NULL, 'v'},
-		{"info",	0, NULL, 'i'},
-		{"random",	0, NULL, 'r'},
-		{"bell",	0, NULL, 'b'},
+		{"info",    0, NULL, 'i'},
+		{"random",  0, NULL, 'r'},
+		{"bell",    0, NULL, 'b'},
 		{"randwall",0, NULL, 'w'},
-		{"tailinc",	0, NULL, 't'},	
-		{"length",	0, NULL, 'l'},
-		{"speed",	0, NULL, 's'},
-		{"pmat",	0, NULL, 'm'},
-		{"topten",	0, NULL, 'c'},
+		{"tailinc", 0, NULL, 't'},	
+		{"length",  0, NULL, 'l'},
+		{"speed",   0, NULL, 's'},
+		{"pmat",    0, NULL, 'm'},
+		{"topten",  0, NULL, 'c'},
 		{"default", 0, NULL, 'd'},
-	    {NULL,      0, NULL, 0}
+        	{NULL,      0, NULL, 0}
 	};
 
 	 while ((c = getopt_long(argc,argv,":vdimbwt:rhcx:y:s:l:",
