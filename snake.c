@@ -32,7 +32,7 @@ int mat[MAX_X][MAX_Y];
 int bg = COLOR_BLACK;
 const int lose_option[DEFEAT_POSSIBILITY] = {1,2,4};
 
-option_t option = {
+option_t  option = {
 	O_SPEED,						/* option.speed    */
 	O_INCT,							/* option.inctail  */
 	O_TLENGTH,						/* option.tlength  */
@@ -41,6 +41,8 @@ option_t option = {
 	O_PMAT,							/* option.printmat */	
 	O_BELL 							/* option.bell     */
 };
+
+option_t def_option = {600,	1, 5, FALSE, FALSE,TRUE, FALSE};
 
 coord_t food;						/* location X & Y of snake's food */
 coord_t direction = {1,0};			/* direction (with key)           */
@@ -58,7 +60,7 @@ int top[SHRT_MAX] = {0};
 void 
 start(void) {
 	initscr ();		                       
- 	noecho (); 
+	noecho (); 
  	start_color ();
  	refresh();
 	bg = (use_default_colors() == OK) ? -1 : black;
@@ -130,6 +132,7 @@ draw_frame(void) {
 			
 /* ******************* */
 /* SNAKE MAIN FUNCTION */
+/*  THE SNAKE'S MOTOR  */
 /* ******************* */
 
 void 
@@ -153,7 +156,7 @@ snake_func(void) {
 	halfdelay(1);	
 	
 	if(tail>option.tlength) {
-		mvaddstr(snake[tail-option.tlength].x , snake[tail-option.tlength].y, " ");
+		mvaddstr(snake[tail-option.tlength].x, snake[tail-option.tlength].y, " ");
 		mat[snake[tail-option.tlength].x][snake[tail-option.tlength].y] = 0;
 	}
 
@@ -456,6 +459,7 @@ main(int argc,char **argv) {
 		{"speed",	0, NULL, 's'},
 		{"pmat",	0, NULL, 'm'},
 		{"topten",	0, NULL, 'c'},
+		{"default", 0, NULL, 'd'},
 	    {NULL,      0, NULL, 0}
 	};
 
@@ -498,7 +502,7 @@ main(int argc,char **argv) {
 				option.randl = true;
 				break;
 			case 'd':
-		//		option = {600, 1, 5, FALSE, FALSE, TRUE, FALSE};
+			    option = def_option;
 				break;
 			case 'l':
 				if(atoi(optarg)<1) {
@@ -537,4 +541,3 @@ main(int argc,char **argv) {
 		usleep(option.speed);
 	}
 }
-

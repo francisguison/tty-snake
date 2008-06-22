@@ -31,7 +31,7 @@
 /* random wall */
 #define O_RANDW FALSE
 /* random level */
-#define O_RANDL FALSE
+#define O_RANDL TRUE
 /* bell option */
 #define O_BELL FALSE
 /* increment tail option */

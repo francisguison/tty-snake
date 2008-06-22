@@ -68,6 +68,7 @@
   -b, --bell		For enable the sound system\n\
   -l, --length		For choose the tail length \n\
   -m, --pmat		Print matrix when you lose\n\
+  -d, --default		Run TTY-Snake with the default configuration\n\
   -v, --version		Print version\n\
   -i, --info		Print info\n\
   -h, --help		Print help (this page)\n\n\
