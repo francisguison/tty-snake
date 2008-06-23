@@ -32,23 +32,23 @@ int bg = COLOR_BLACK;
 const int lose_option[DEFEAT_POSSIBILITY] = {1,2,4};
 
 option_t option = {
-	O_SPEED,						/* option.speed    */
-	O_INCT,							/* option.inctail  */
-	O_TLENGTH,						/* option.tlength  */
-	O_RANDL,						/* option.randl    */	
-	O_RANDW,						/* option.randw    */	
-	O_PMAT,							/* option.printmat */	
-	O_BELL 							/* option.bell     */
+	O_SPEED,                        /* option.speed    */
+	O_INCT,                         /* option.inctail  */
+	O_TLENGTH,                      /* option.tlength  */
+	O_RANDL,                        /* option.randl    */	
+	O_RANDW,                        /* option.randw    */	
+	O_PMAT,                         /* option.printmat */	
+	O_BELL                          /* option.bell     */
 };
 
 option_t def_option = {600,	1, 5, FALSE, FALSE,TRUE, FALSE};
 
-coord_t framesize = {25,80};		/* size of the frame			  */
-coord_t food;				        /* location X & Y of snake's food */
-coord_t direction = {1,0};			/* direction (with key)           */
-coord_t snake[USHRT_MAX];			/* snake coordinated              */
-coord_t coordinated = {3,3};		/* final ion of snake      		  */
-coord_t randwall;					/* random wall fonction           */
+coord_t framesize = {25,80};        /* size of the frame			  */
+coord_t food;                       /* location X & Y of snake's food */
+coord_t direction = {1,0};          /* direction (with key)           */
+coord_t snake[USHRT_MAX];           /* snake coordinated              */
+coord_t coordinated = {3,3};        /* final ion of snake      		  */
+coord_t randwall;                   /* random wall fonction           */
 
 int mat[500][500];	
 FILE* score_file  = NULL;
