@@ -87,12 +87,12 @@ void snake_func(void);
 void lose_screen(void);
 void lose(void);
 void snake_food(void);
-void snake_win(int enable);
-void rand_wall(int enable);
-void random_level(int enable);
-void print_mat(int enable);
+void snake_win(bool);
+void randwl(bool);
+void random_level(bool);
+void print_mat(bool);
 void print_topten(void);
-int nrand(int min,int max);
+int nrand(int, int);
 
 typedef struct {
 	int x;

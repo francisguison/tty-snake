@@ -166,25 +166,25 @@ snake_func(void) {
 		case KEY_UP:
 			if(!direction.x) {
 				direction.x = -1;
-				direction.y = 0;
+				direction.y =  0;
 			}
 			break;
 		case KEY_DOWN:					                        
 			if(!direction.x) {
-				direction.x = 1;
-				direction.y = 0;
+				direction.x =  1;
+				direction.y =  0;
 			}
 			break;
 		case KEY_LEFT:					                          
 			if(!direction.y) {
 				direction.y = -1;
-				direction.x = 0;
+				direction.x =  0;
 			}
 			break;
 		case KEY_RIGHT:					                         
 			if(!direction.y) {
-				direction.y = 1;
-				direction.x = 0;
+				direction.y =  1;
+				direction.x =  0;
 			}
 			break;
 		case 'p':
@@ -206,7 +206,7 @@ snake_func(void) {
 /* ********************* */
 
 void 
-random_level(int enable) {
+random_level(bool enable) {
 	if(enable) {
 		attron(color(BORDER));
 		int rand1,rand2,rand_choose,
@@ -276,9 +276,9 @@ snake_food(void) {
 /* ******************** */
 
 void 
-randw(int enable) {
+randw(bool enable) {
 	if (enable) {
-		int pass=0;
+		bool pass;
 		while(pass != 1) {
 			randwall.x = nrand(3,framesize.x - 3);
 			randwall.y = nrand(3,framesize.y - 3);
@@ -296,20 +296,17 @@ randw(int enable) {
 /* ****************** */
 
 void
-snake_win(int enable) {
-	init_pair(2,black,white);
+snake_win(bool enable) {
 	char bell;
-
 	bell = enable ? '\a' : 0;
-
 	if(mat[coordinated.x][coordinated.y] == 3) {
 		printf("%c",bell); 			
 		++score;
 		option.tlength += option.inctail;
 		move(0,9);
-		attron(color(2));
+		attron(color(INFO));
 		printw("%d",score);
-		attroff(color(2));
+		attroff(color(INFO));
 		randw(option.randw);
 		snake_food();
 	}
@@ -320,7 +317,7 @@ snake_win(int enable) {
 /* ********************* */
 
 void 
-printmat(int enable){
+printmat(bool enable){
 	if(enable) {
 		int i,j;
 		int fg,bgc;

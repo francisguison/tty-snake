@@ -11,7 +11,7 @@
 #define FGBORDER_COLOR white
 /* info color */
 #define INFO_COLOR white
-#define FGINFO_COLOR termbg
+#define FGINFO_COLOR black
 /* snake color */
 #define SNAKE_COLOR green
 #define FGSNAKE_COLOR black
