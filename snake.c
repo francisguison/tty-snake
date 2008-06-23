@@ -59,13 +59,13 @@ int top[SHRT_MAX] = {0};
 /* **************** */
 
 void 
-start(void) {
+	start(void) {
 	initscr ();		                       
 	noecho (); 
- 	start_color ();
- 	refresh();
+	start_color ();
+	refresh();
 	bg = (use_default_colors() == OK) ? -1 : black;
- 	keypad (stdscr, TRUE);				                         
+	keypad (stdscr, TRUE);				                         
 	curs_set(0);
 	raw();           
 	init_pair(BORDER, FGBORDER_COLOR, BORDER_COLOR);
