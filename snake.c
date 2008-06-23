@@ -129,7 +129,7 @@ draw_frame(void) {
 	mvaddstr(0,1,"Score : 0");
 	attroff(color(INFO));
 }
-p
+
 /* ******************* */
 /* SNAKE MAIN FUNCTION */
 /*  THE SNAKE'S MOTOR  */
