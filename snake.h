@@ -21,15 +21,13 @@
 #ifndef __SNAKE_H__
 
 #include <stdlib.h>
+#include <stdbool.h>
 #include <ncurses.h>			 		
-#include <time.h>		
 #include <unistd.h> 					
 #include <limits.h>						
 #include <getopt.h>					
 #include <stdio.h>
-
-#define MAX_X 25
-#define MAX_Y 80
+#include <time.h>	
 
 #define BORDER 1
 #define INFO 2
@@ -60,6 +58,9 @@
 #define help_print() printf("tty-snake 0.2alpha1 Usage : tty-snake [option] [option] <arg> \n\n\
   -x <num>	  	X position of snake\n\
   -y <num>		Y position of snake\n\
+  -X <num>		set X size of the frame\n\
+  -Y <num>		set Y size of the frame\n\
+  -a, --all-term	Use all the term size to play\n\
   -r, --random		Make a random level\n\
   -t, --tailinc		Snake incrementation food value\n\
   -w, --randwall	Make a wall when the snake eat\n\

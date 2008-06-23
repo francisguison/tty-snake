@@ -29,9 +29,9 @@
 /* speed */
 #define O_SPEED 600
 /* random wall */
-#define O_RANDW FALSE
+#define O_RANDW TRUE
 /* random level */
-#define O_RANDL TRUE
+#define O_RANDL FALSE
 /* bell option */
 #define O_BELL FALSE
 /* increment tail option */
