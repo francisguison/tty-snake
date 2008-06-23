@@ -282,9 +282,7 @@ randw(int enable) {
 		while(pass != 1) {
 			randwall.x = nrand(3,framesize.x - 3);
 			randwall.y = nrand(3,framesize.y - 3);
-			if(!mat[randwall.x][randwall.y]) {
-				pass = 1;
-			}
+			pass = (!mat[randwall.x][randwall.y]) ? 1 : 0;
 		}
 		attron(color(RANDW));
 		mvaddstr(randwall.x,randwall.y,"X");
