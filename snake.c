@@ -43,12 +43,12 @@ option_t option = {
 
 option_t def_option = {600,	1, 5, FALSE, FALSE,TRUE, FALSE};
 
-coord_t framesize = {25,80};        /* size of the frame			  */
-coord_t food;                       /* location X & Y of snake's food */
-coord_t direction = {1,0};          /* direction (with key)           */
-coord_t snake[USHRT_MAX];           /* snake coordinated              */
-coord_t coordinated = {3,3};        /* final ion of snake      		  */
-coord_t randwall;                   /* random wall fonction           */
+coord_t framesize = {25,80};       /* size of the frame              */
+coord_t food;                      /* location X & Y of snake's food */
+coord_t direction = {1,0};         /* direction (with key)           */
+coord_t snake[USHRT_MAX];          /* snake coordinated              */
+coord_t coordinated = {3,3};       /* final ion of snake             */
+coord_t randwall;                  /* random wall fonction           */
 
 int mat[500][500];	
 FILE* score_file  = NULL;
@@ -548,7 +548,7 @@ main(int argc,char **argv) {
 	check_termsize();
 	snake_food(); 			                      
 	draw_frame(); 			                    
- 	random_level(option.randl); 	                                                         
+	random_level(option.randl); 	                                                         
 
 	while(1) {
 		snake_func();
