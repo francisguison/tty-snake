@@ -335,9 +335,11 @@ printmat(int enable){
 					case 3: fg = 30; bgc = 44; break;
 					case 4: fg = 30; bgc = 47; break;
 				}
-			colors(bgc,fg);
-			printf("%d",mat[i][j]);
-			colors(0,0);
+				
+				colors(bgc,fg);
+				printf("%d",mat[i][j]);
+				colors(0,0);
+
 			}
 			putchar('\n');
 		}
